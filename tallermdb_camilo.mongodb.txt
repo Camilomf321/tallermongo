@@ -1,0 +1,81 @@
+const database = 'Compañia';
+const collection = 'Empleados';
+db.createCollection(collection);
+
+use(database);
+
+db.createCollection(collection);
+
+// 1. Insertar un documento en la coleccion Empleados
+db.Empleados.insertOne({'_id': 0, 'Nombre': 'Camilo', 'Apellido': 'Andres', 'Cargo': 'Desarollador', 'Salario': '9999999'});
+
+// 2. Insertar dos documentos en la coleccion Empleados
+db.Empleados.insertMany([{'_id': 1, 'Nombre': 'Andres', 'Apellido': 'Murcia', 'Cargo': 'Director', 'Salario': '9090909'}, 
+                        {'_id': 2, 'Nombre': 'Angel', 'Apellido': 'david', 'Cargo': 'Asistente', 'Salario': '30303030'}]);
+
+// 3. Insertar una colección llamada empresa con los siguientes atributos del documento:
+    a. nombre
+    b. 'direccion'
+    c. telefono
+    d. fecha de creación*/
+db.createCollection('empresa', {
+  validator: {
+    $jsonSchema: {
+        bsonType: "object",
+        required: ["nombre", "direccion", "telefono", "fecha de creación"],
+        properties: {
+          nombre: {
+            bsonType: 'string',
+            minLength: 1,
+            maxLength: 20
+          },
+          direccion: {
+            bsonType: 'string',
+            minLength: 1,
+            maxLength: 20
+          },
+          telefono: {
+            bsonType: 'string',
+            minLength: 1,
+            maxLength: 20
+          },
+          fechadecreación: {
+            bsonType: 'date',
+          }
+
+//4. Insertar cuatro documentos en Empresa
+db.Empresa.insertMany([{'Nombre': 'empresa 1', 'Dirección': 'cra 22 22', 'Telefono': 329473e289, 'Fecha de Creación': new Date('2021-06-07T05:00:00Z'), _id: 1},
+                       {'Nombre': 'empresa 2', 'Dirección': 'cra 19 33', 'Telefono': 78238197e3, 'Fecha de Creación': new Date('2021-07-07T05:00:00Z'), _id: 2},
+                       {'Nombre': 'empresa 3', 'Dirección': 'cra 22 36', 'Telefono': 8676873264, 'Fecha de Creación': new Date('2021-07-01T05:00:00Z'), _id: 3})
+		       {'Nombre': 'empresa 4', 'Dirección': 'cra 22 22', 'Telefono': 879324764, 'Fecha de Creación': new Date('2021-08-07T05:00:00Z'), _id: 4},])                      
+;
+
+//5.  ahora a cada documento hacer agregar otro atributo llamado empresa_id que sea el _id de la empresa
+
+
+
+// 6. Consultar todos los empleados de la empresa x
+db.empleados.find({'empresa_id': 3});
+
+// 7. Eliminar empleados de empresa x
+db.empleados.deleteMany({'empresa_id': 2});
+
+//8: Actualizar el nombre de una empresa por universidad ean
+
+db.empresa.updateOne({'nombre': 'empresa 1'}, {$set: {'nombre': 'universidad ean'}});
+
+
+// 9. Consultar todos los empleados que su sueldo este entre $1000000 y $6000000
+db.empleados.find({'Nomina': {$gt: 1000000, $lt: 6000000}});
+
+// 11. Modificar todos los empleados para que tengan un atributo array con comidas favoritas ["pizza","hamburguesa"...]
+
+db.empleados.updateMany({}, {$set: {'comidas favoritas': ["pizza", "hamburguesa"]}});
+
+//12. Contar los empleados que tengan apellido Torres
+
+db.empleados.countDocuments({'apellido': 'Torres'});
+
+//13. Consultar el empleado mas nuevo segun su fecha de contratacion
+
+db.empleados.find().sort({'Fecha de Contratación': -1}).limit(1);
