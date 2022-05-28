@@ -74,8 +74,8 @@ db.empleados.updateMany({}, {$set: {'comidas favoritas': ["pizza", "hamburguesa"
 
 //12. Contar los empleados que tengan apellido Torres
 
-db.empleados.countDocuments({'apellido': 'Torres'});
+db.Empleados.find({apellido:"Torres"}).count()
 
 //13. Consultar el empleado mas nuevo segun su fecha de contratacion
 
-db.empleados.find().sort({'Fecha de Contratación': -1}).limit(1);
+db.Empleados.aggregate([{$group:{"_id":"$_id", "noOfEmployee":{$sum:1}, "fecha":{$min:"$fechadecontratación"}}}]);
